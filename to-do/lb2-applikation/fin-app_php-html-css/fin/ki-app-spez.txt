@@ -1,0 +1,17 @@
+Mach mir in PHP, HTML, CSS und JavaScript eine funktionierende Webseite mit Datenbank-Anknüpfung.
+
+Alles in Bootstrap-Look and -Feel.
+
+Ich brauche eine einfache Verwaltungsseite, damt ich die watchlist.txt bearbeiten kann.
+Wenn es ein neues Aktien-Symbol gibt, muss dafür sowohl eine neue Kolonne (Attribut) in der Tabelle "t_tagesschlusskurse" eingefügt werden damit dort die Kurse eingefügt werden können. Weiter soll für jede Währung (USD, EUR) ebenfalls in der Tabelle "t_tagesschlusskurse" eine Kolonne (Attribut) erstellt und bewirtschaftet werden für jeden Tag der Abfrage. Die Währungen sollen zum CHF gelten, also USD/CHF, EUR/CHF.
+
+Benutze für die Abfragen die "Frankfurter.app".
+
+Ich brauche weiter eine Verwaltungsseite, wo ich meine gekauften Aktien (Stocks) für den Kauf-Tag und auch für den Verkauf-Tag speichern kann. Die Datenhaltung soll in einer Tabelle t_myassets gemacht werden. Diese Tabelle muss mindestens die Attribute haben: (Tag in der Form YYYY-MM-DD date, Aktiensymbol varchar(8), KaufVerkauf (beim Kauf: +Zahl, beim Verkauf: -Zahl) float, Tageskurs float, Kaufwährung varchar(3) ).
+
+Ich habe in einer Datei watchlist.txt eine Liste mit Aktien-Symbolen wie (UBSN, AAPL, TSLA, NESN usw.) aus verschiedenen Börsen. Ich brauche in PHP eine mit Gratisabfragen ohne API-Key für Tages-Schluss-Kurse dieser Aktien. 
+Die Tagesschlusskurse sollen in die Datenbank "db_fin" in die Tabelle "t_tagesschlusskurse" eingefügt werden. Diese Tabelle hat ein Attribut "Datum" und auch für jede Aktie eine Kolonne/Spalte (Attribut). Falls an diesem (Datum-)Tag schon einen Eintrag in der Tabelle existieren sollte, dann muss man kein neuen Kurs im Internet abholen gehen, dann kann man den Wert aus der Tabelle nehmen.
+
+Zur Darstellung auf der Seite "meine Assets", sollen alle Aktien aufgeführt werden, die einen positiven Wert der Käufe haben. Für jeden Aktienwert, will ich die Performanz für 1 Tag (gestern bis heute), für 3 Tage, für 7 Tage, für 30 Tage, für 90 Tage ausgewiesen werden sowie den absoluten Veränderungswert von gestern auf heute.
+
+Am Ende der Tabelle brauche ich die Summe aller Assets (Anzahl * Kurswert) in der Originalwährung (=USD) und in meiner Heimwährung (CHF) indem man den USD-Wert * Kurs USD/CHF rechnet.

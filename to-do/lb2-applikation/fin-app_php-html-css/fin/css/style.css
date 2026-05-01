@@ -1,0 +1,12 @@
+/* Custom minimal styles to complement Bootstrap */
+body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+.card { border-radius: 0.5rem; }
+.table td, .table th { vertical-align: middle; }
+.navbar-brand { font-weight: 600; }
+.bg-light { background-color: #f8f9fa !important; }
+
+.meine-assets {
+	th {	text-align: right;
+			font-size: 0.75em; }
+	td {	text-align: right; }
+}
