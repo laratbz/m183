@@ -2,29 +2,43 @@ const db = require('./fw/db');
 
 async function getHtml(req) {
     let html = '';
-    let taskId = '';
+    let taskId = null;
 
-    // see if the id exists in the database
-    if (req.body.id !== undefined && req.body.id.length !== 0) {
-        taskId = req.body.id;
-        let stmt = await db.executeStatement('select ID, title, state from tasks where ID = ' + taskId);
+    if (req.body.id && !isNaN(req.body.id)) {
+        taskId = parseInt(req.body.id);
+
+        let stmt = await db.executeStatement(
+            'SELECT ID FROM tasks WHERE ID = ?',
+            [taskId]
+        );
+
         if (stmt.length === 0) {
-            taskId = '';
+            taskId = null;
         }
     }
 
-    if (req.body.title !== undefined && req.body.state !== undefined){
+    if (req.body.title && req.body.state){
         let state = req.body.state;
         let title = req.body.title;
-        let userid = req.cookies.userid;
+        let userid = req.session.userid;
 
-        if (taskId === ''){
-            stmt = db.executeStatement("insert into tasks (title, state, userID) values ('"+title+"', '"+state+"', '"+userid+"')");
-        } else {
-            stmt = db.executeStatement("update tasks set title = '"+title+"', state = '"+state+"' where ID = "+taskId);
+        if (!userid) {
+            return "<span class='info info-error'>Unauthorized</span>";
         }
 
-        html += "<span class='info info-success'>Update successfull</span>";
+        if (taskId === null){
+            await db.executeStatement(
+                "INSERT INTO tasks (title, state, userID) VALUES (?, ?, ?)",
+                [title, state, userid]
+            );
+        } else {
+            await db.executeStatement(
+                "UPDATE tasks SET title = ?, state = ? WHERE ID = ?",
+                [title, state, taskId]
+            );
+        }
+
+        html += "<span class='info info-success'>Update successful</span>";
     } else {
         html += "<span class='info info-error'>No update was made</span>";
     }
@@ -32,4 +46,4 @@ async function getHtml(req) {
     return html;
 }
 
-module.exports = { html: getHtml }
+module.exports = { html: getHtml };

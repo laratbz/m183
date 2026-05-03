@@ -15,20 +15,24 @@ const searchProvider = require('./search/v2');
 const app = express();
 const PORT = 3000;
 
-// Middleware für Session-Handling
+// Secure Session
 app.use(session({
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true
+    secret: 'very_strong_secret_change_me',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        secure: false, // true wenn HTTPS
+        sameSite: 'strict'
+    }
 }));
 
-// Middleware für Body-Parser
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 
-// Routen
+// Routes
 app.get('/', async (req, res) => {
     if (activeUserSession(req)) {
         let html = await wrapContent(await index.html(req), req)
@@ -45,9 +49,8 @@ app.post('/', async (req, res) => {
     } else {
         res.redirect('login');
     }
-})
+});
 
-// edit task
 app.get('/admin/users', async (req, res) => {
     if(activeUserSession(req)) {
         let html = await wrapContent(await adminUser.html, req);
@@ -57,7 +60,6 @@ app.get('/admin/users', async (req, res) => {
     }
 });
 
-// edit task
 app.get('/edit', async (req, res) => {
     if (activeUserSession(req)) {
         let html = await wrapContent(await editTask.html(req), req);
@@ -67,38 +69,32 @@ app.get('/edit', async (req, res) => {
     }
 });
 
-// Login-Seite anzeigen
 app.get('/login', async (req, res) => {
     let content = await login.handleLogin(req, res);
 
     if(content.user.userid !== 0) {
-        // login was successful... set cookies and redirect to /
-        login.startUserSession(res, content.user);
+        login.startUserSession(res, content.user, req);
     } else {
-        // login unsuccessful or not made jet... display login form
         let html = await wrapContent(content.html, req);
         res.send(html);
     }
 });
 
-// Logout
 app.get('/logout', (req, res) => {
     req.session.destroy();
-    res.cookie('username','');
-    res.cookie('userid','');
+    res.clearCookie('username');
+    res.clearCookie('userid');
     res.redirect('/login');
 });
 
-// Profilseite anzeigen
 app.get('/profile', (req, res) => {
-    if (req.session.loggedin) {
+    if (req.session && req.session.userid) {
         res.send(`Welcome, ${req.session.username}! <a href="/logout">Logout</a>`);
     } else {
         res.send('Please login to view this page');
     }
 });
 
-// save task
 app.post('/savetask', async (req, res) => {
     if (activeUserSession(req)) {
         let html = await wrapContent(await saveTask.html(req), req);
@@ -108,32 +104,31 @@ app.post('/savetask', async (req, res) => {
     }
 });
 
-// search
 app.post('/search', async (req, res) => {
+    if (!activeUserSession(req)) {
+        return res.redirect('/');
+    }
     let html = await search.html(req);
     res.send(html);
 });
 
-// search provider
 app.get('/search/v2/', async (req, res) => {
+    if (!activeUserSession(req)) {
+        return res.status(403).send('Forbidden');
+    }
     let result = await searchProvider.search(req);
     res.send(result);
 });
 
-
-// Server starten
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
 
 async function wrapContent(content, req) {
     let headerHtml = await header(req);
-    return headerHtml+content+footer;
+    return headerHtml + content + footer;
 }
 
 function activeUserSession(req) {
-    // check if cookie with user information ist set
-    console.log('in activeUserSession');
-    console.log(req.cookies);
-    return req.cookies !== undefined && req.cookies.username !== undefined && req.cookies.username !== '';
+    return req.session && req.session.userid;
 }

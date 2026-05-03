@@ -5,11 +5,9 @@ async function handleLogin(req, res) {
     let user = { 'username': '', 'userid': 0 };
 
     if(typeof req.query.username !== 'undefined' && typeof req.query.password !== 'undefined') {
-        // Get username and password from the form and call the validateLogin
         let result = await validateLogin(req.query.username, req.query.password);
 
         if(result.valid) {
-            // Login is correct. Store user information to be returned.
             user.username = req.query.username;
             user.userid = result.userId;
             msg = result.msg;
@@ -21,49 +19,43 @@ async function handleLogin(req, res) {
     return { 'html': msg + getHtml(), 'user': user };
 }
 
-function startUserSession(res, user) {
-    console.log('login valid... start user session now for userid '+user.userid);
-    res.cookie('username', user.username);
-    res.cookie('userid', user.userid);
+function startUserSession(res, user, req) {
+    req.session.userid = user.userid;
+    req.session.username = user.username;
+
+    res.cookie('username', user.username, { httpOnly: true });
+    res.cookie('userid', user.userid, { httpOnly: true });
+
     res.redirect('/');
 }
 
 async function validateLogin (username, password) {
     let result = { valid: false, msg: '', userId: 0 };
 
-    // Connect to the database
     const dbConnection = await db.connectDB();
+    const sql = `SELECT id, username, password FROM users WHERE username = ?`;
 
-    const sql = `SELECT id, username, password FROM users WHERE username='`+username+`'`;
     try {
-        const [results, fields] = await dbConnection.query(sql);
+        const [results] = await dbConnection.query(sql, [username]);
 
         if(results.length > 0) {
-            // Bind the result variables
-            let db_id = results[0].id;
-            let db_username = results[0].username;
-            let db_password = results[0].password;
+            let db_user = results[0];
 
-            // Verify the password
-            if (password == db_password) {
-                result.userId = db_id;
+            if (password === db_user.password) {
+                result.userId = db_user.id;
                 result.valid = true;
                 result.msg = 'login correct';
             } else {
-                // Password is incorrect
                 result.msg = 'Incorrect password';
             }
         } else {
-            // Username does not exist
             result.msg = 'Username does not exist';
         }
 
-        console.log(results); // results contains rows returned by server
-        //console.log(fields); // fields contains extra meta data about results, if available
     } catch (err) {
         console.log(err);
     }
-    
+
     return result;
 }
 
@@ -78,7 +70,7 @@ function getHtml() {
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="text" class="form-control size-medium" name="password" id="password">
+            <input type="password" class="form-control size-medium" name="password" id="password">
         </div>
         <div class="form-group">
             <label for="submit" ></label>
@@ -88,6 +80,6 @@ function getHtml() {
 }
 
 module.exports = {
-    handleLogin: handleLogin,
-    startUserSession: startUserSession
+    handleLogin,
+    startUserSession
 };

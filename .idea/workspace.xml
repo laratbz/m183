@@ -1,63 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="554eb3b8-bebd-41e7-b3ea-66ac05e67f63" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/.gitlab-ci.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/docker/compose.db.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/docker/compose.node.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/docker/compose.php.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/docker/db/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/docker/db/m183_lb2.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/docker/php/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/fin-app_php-html-css/fin/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/fin-app_php-html-css/fin/admin_assets.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/fin-app_php-html-css/fin/admin_watchlist.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/fin-app_php-html-css/fin/assets.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/fin-app_php-html-css/fin/config.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/fin-app_php-html-css/fin/css/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/fin-app_php-html-css/fin/fetch_daily.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/fin-app_php-html-css/fin/index.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/fin-app_php-html-css/fin/js/charts.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/fin-app_php-html-css/fin/ki-app-spez.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/fin-app_php-html-css/fin/lib/db.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/fin-app_php-html-css/fin/lib/fx.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/fin-app_php-html-css/fin/lib/stocks.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/fin-app_php-html-css/fin/watchlist.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/admin/users.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/app.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/edit.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/fw/db.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/fw/footer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/fw/header.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/login.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/nodemon.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/public/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/savetask.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/search.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/search/v2/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/user/backgroundsearch.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/user/tasklist.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-php/admin/users.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-php/config.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-php/edit.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-php/fw/db.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-php/fw/footer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-php/fw/header.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-php/fw/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-php/index.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-php/login.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-php/logout.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-php/savetask.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-php/search.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-php/search/v2/index.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-php/user/backgroundsearch.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-php/user/tasklist.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/savetask.js" beforeDir="false" afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/savetask.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/search.js" beforeDir="false" afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/search.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,23 +35,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/larak/Desktop/Lehre/TBZ/m183",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/larak/Desktop/Lehre/TBZ/m183&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
