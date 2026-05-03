@@ -1,59 +1,75 @@
 const db = require('./fw/db');
+const bcrypt = require('bcrypt');
 
-async function handleLogin(req, res) {
+async function handleLogin(req) {
     let msg = '';
-    let user = { 'username': '', 'userid': 0 };
+    let user = { username: '', userid: 0, role: 'User' };
 
-    if(typeof req.query.username !== 'undefined' && typeof req.query.password !== 'undefined') {
-        let result = await validateLogin(req.query.username, req.query.password);
+    const { username, password } = req.body;
 
-        if(result.valid) {
-            user.username = req.query.username;
-            user.userid = result.userId;
-            msg = result.msg;
-        } else {
-            msg = result.msg;
-        }
+    // 🔒 Input-Validierung
+    if (!username || !password) {
+        return { html: 'Missing credentials' + getHtml(), user };
     }
 
-    return { 'html': msg + getHtml(), 'user': user };
+    const result = await validateLogin(username, password);
+
+    if (result.valid) {
+        user.username = username;
+        user.userid = result.userId;
+        user.role = result.role;
+    } else {
+        msg = result.msg;
+    }
+
+    return { html: msg + getHtml(), user };
 }
 
 function startUserSession(res, user, req) {
     req.session.userid = user.userid;
     req.session.username = user.username;
-
-    res.cookie('username', user.username, { httpOnly: true });
-    res.cookie('userid', user.userid, { httpOnly: true });
+    req.session.role = user.role;
 
     res.redirect('/');
 }
 
-async function validateLogin (username, password) {
-    let result = { valid: false, msg: '', userId: 0 };
-
-    const dbConnection = await db.connectDB();
-    const sql = `SELECT id, username, password FROM users WHERE username = ?`;
+async function validateLogin(username, password) {
+    let result = { valid: false, msg: '', userId: 0, role: 'User' };
 
     try {
+        const dbConnection = await db.connectDB();
+
+        // 🔥 KORREKTER JOIN für DEINE DB
+        const sql = `
+            SELECT u.ID, u.username, u.password, r.title as role
+            FROM users u
+                     JOIN permissions p ON u.ID = p.userID
+                     JOIN roles r ON p.roleID = r.ID
+            WHERE u.username = ?
+        `;
+
         const [results] = await dbConnection.query(sql, [username]);
 
-        if(results.length > 0) {
+        if (results.length > 0) {
             let db_user = results[0];
 
-            if (password === db_user.password) {
-                result.userId = db_user.id;
+            // 🔐 bcrypt Vergleich
+            const match = await bcrypt.compare(password, db_user.password);
+
+            if (match) {
                 result.valid = true;
-                result.msg = 'login correct';
+                result.userId = db_user.ID;       // ⚠️ GROSS geschrieben!
+                result.role = db_user.role;       // kommt aus roles.title
             } else {
                 result.msg = 'Incorrect password';
             }
         } else {
-            result.msg = 'Username does not exist';
+            result.msg = 'User not found';
         }
 
     } catch (err) {
-        console.log(err);
+        console.error("Login error:", err);
+        result.msg = 'Internal server error';
     }
 
     return result;
@@ -62,24 +78,18 @@ async function validateLogin (username, password) {
 function getHtml() {
     return `
     <h2>Login</h2>
-
-    <form id="form" method="get" action="/login">
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" class="form-control size-medium" name="username" id="username">
+    <form method="POST" action="/login">
+        <div>
+            <label>Username</label>
+            <input type="text" name="username" required>
         </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control size-medium" name="password" id="password">
+        <div>
+            <label>Password</label>
+            <input type="password" name="password" required>
         </div>
-        <div class="form-group">
-            <label for="submit" ></label>
-            <input id="submit" type="submit" class="btn size-auto" value="Login" />
-        </div>
-    </form>`;
+        <button type="submit">Login</button>
+    </form>
+    `;
 }
 
-module.exports = {
-    handleLogin,
-    startUserSession
-};
+module.exports = { handleLogin, startUserSession, getHtml };

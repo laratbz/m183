@@ -1,8 +1,8 @@
 const axios = require('axios');
 
 async function getHtml(req) {
-    if (!req.body.provider || !req.body.terms || !req.body.userid){
-        return "Not enough information provided";
+    if (!req.body.provider || !req.body.terms){
+        return "Missing data";
     }
 
     const allowedProviders = ['/search/v2/'];
@@ -11,32 +11,20 @@ async function getHtml(req) {
         return "Invalid provider";
     }
 
-    let provider = req.body.provider;
-    let terms = encodeURIComponent(req.body.terms);
-    let userid = encodeURIComponent(req.body.userid);
+    const provider = req.body.provider;
+    const terms = encodeURIComponent(req.body.terms);
 
-    await sleep(1000);
+    // 🔒 FIX: userid aus SESSION
+    const userid = encodeURIComponent(req.session.userid);
 
-    let theUrl='http://localhost:3000'+provider+'?userid='+userid+'&terms='+terms;
-    let result = await callAPI('GET', theUrl, false);
-    return result;
-}
-
-async function callAPI(method, url){
-    let noResults = 'No results found!';
+    const url = 'http://localhost:3000' + provider + '?userid=' + userid + '&terms=' + terms;
 
     try {
         const response = await axios.get(url);
         return response.data;
     } catch {
-        return noResults;
+        return "No results";
     }
-}
-
-function sleep(ms) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
 }
 
 module.exports = { html: getHtml };
