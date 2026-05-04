@@ -5,14 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="554eb3b8-bebd-41e7-b3ea-66ac05e67f63" name="Changes" comment="Fixed:&#10;SQL Injection&#10;Session Hijacking / Manipulation&#10;Unsichere Cookies&#10;SSRF (search)&#10;Input Validation&#10;Zugriffsschutz auf API-Routen">
-      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/hash.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/deletetask.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/edit.js" beforeDir="false" afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/edit.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/fw/db.js" beforeDir="false" afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/fw/db.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/savetask.js" beforeDir="false" afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/savetask.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/search.js" beforeDir="false" afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/search.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/user/tasklist.js" beforeDir="false" afterPath="$PROJECT_DIR$/to-do/lb2-applikation/todo-list-node/user/tasklist.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

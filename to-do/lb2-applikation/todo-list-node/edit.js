@@ -1,73 +1,59 @@
 const db = require('./fw/db');
 
 async function getHtml(req) {
+    const userid = req.session.userid;
+    if (!userid) return "Unauthorized";
+
+    let taskId = req.query.id || '';
     let title = '';
     let state = '';
-    let taskId = '';
-    let html = '';
-    let options = ["Open", "In Progress", "Done"];
 
-    if(req.query.id !== undefined) {
-        console.log('req.query: ')
-        console.log(req.query);
-        console.log(req.query.id);
-        taskId = req.query.id;
-        let conn = await db.connectDB();
-        let [result, fields] = await conn.query('select ID, title, state from tasks where ID = '+taskId);
-        if(result.length > 0) {
+    const options = ['open', 'in progress', 'done'];
+
+    if (taskId) {
+        const conn = await db.connectDB();
+
+        const [result] = await conn.execute(
+            'SELECT ID, title, state FROM tasks WHERE ID = ? AND userID = ?',
+            [taskId, userid]
+        );
+
+        if (result.length > 0) {
             title = result[0].title;
             state = result[0].state;
         }
-
-        html += `<h1>Edit Task</h1>`;
-    } else {
-        html += `<h1>Create Task</h1>`;
     }
 
-    html += `
-    <form id="form" method="post" action="savetask">
-        <input type="hidden" name="id" value="`+taskId+`" />
-        <div class="form-group">
-            <label for="title">Description</label>
-            <input type="text" class="form-control size-medium" name="title" id="title" value="`+title+`">
-        </div>
-        <div class="form-group">
-            <label for="state">State</label>
-            <select name="state" id="state" class="size-auto">`;
+    let html = `
+    <h1>${taskId ? "Edit Task" : "Create Task"}</h1>
 
-    for(let i = 0; i < options.length; i++) {
-        let selected = state === options[i].toLowerCase() ? 'selected' : '';
-        html += `<span>`+options[1]+`</span>`;
-        html += `<option value='`+options[i].toLowerCase()+`' `+selected+`>`+options[i]+`</option>`;
+    <form method="post" action="/savetask">
+        <input type="hidden" name="id" value="${taskId || ''}">
+
+        <div>
+            <label>Description</label>
+            <input type="text" name="title" value="${title}">
+        </div>
+
+        <div>
+            <label>State</label>
+            <select name="state">
+    `;
+
+    for (let opt of options) {
+        let selected = state === opt ? 'selected' : '';
+        html += `<option value="${opt}" ${selected}>${opt}</option>`;
     }
 
     html += `
             </select>
         </div>
-        <div class="form-group">
-            <label for="submit" ></label>
-            <input id="submit" type="submit" class="btn size-auto" value="Submit" />
-        </div>
+
+        <button type="submit">Save</button>
     </form>
-    <script>
-        $(document).ready(function () {
-        $('#form').validate({
-            rules: {
-                title: {
-                    required: true
-                }
-            },
-            messages: {
-                title: 'Please enter a description.',
-            },
-            submitHandler: function (form) {
-                form.submit();
-            }
-        });
-    });
-    </script>`;
+    `;
 
     return html;
 }
 
-module.exports = { html: getHtml }
+module.exports = { html: getHtml };

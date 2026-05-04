@@ -5,11 +5,15 @@ const path = require('path');
 
 const header = require('./fw/header');
 const footer = require('./fw/footer');
+
 const login = require('./login');
 const index = require('./index');
 const adminUser = require('./admin/users');
 const saveTask = require('./savetask');
 const search = require('./search');
+
+const editTask = require('./edit');
+const deleteTask = require('./deletetask');
 
 const app = express();
 const PORT = 3000;
@@ -30,60 +34,80 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 
+// HELPERS
 function activeUserSession(req) {
     return req.session && req.session.userid;
 }
 
 function isAdmin(req) {
-    return req.session && req.session.role === 'Admin'; // 🔥 DB liefert "Admin"
+    return req.session && req.session.role === 'Admin';
 }
 
-// ROUTES
+// HOME
 app.get('/', async (req, res) => {
     if (!activeUserSession(req)) return res.redirect('/login');
 
     let html = await wrapContent(await index.html(req), req);
-    res.send(html);
+    return res.send(html);
 });
 
 // LOGIN
 app.get('/login', async (req, res) => {
     let html = await wrapContent(login.getHtml(), req);
-    res.send(html);
+    return res.send(html);
 });
 
 app.post('/login', async (req, res) => {
     let result = await login.handleLogin(req);
 
     if (result.user.userid !== 0) {
-        login.startUserSession(res, result.user, req);
-    } else {
-        let html = await wrapContent(result.html, req);
-        res.send(html);
+        login.startUserSession(req, result.user); // ✅ FIX
+        return res.redirect('/');
     }
+
+    let html = await wrapContent(result.html, req);
+    return res.send(html);
 });
 
+// LOGOUT
 app.get('/logout', (req, res) => {
-    req.session.destroy();
-    res.redirect('/login');
+    req.session.destroy(() => {
+        res.redirect('/login');
+    });
 });
 
-// 🔥 ADMIN FIX
+// ADMIN
 app.get('/admin/users', async (req, res) => {
-    if (activeUserSession(req) && isAdmin(req)) {
-        let html = await wrapContent(await adminUser.html, req);
-        res.send(html);
-    } else {
-        res.status(403).send('Forbidden');
+    if (!activeUserSession(req) || !isAdmin(req)) {
+        return res.status(403).send('Forbidden');
     }
+
+    let html = await wrapContent(await adminUser.html, req);
+    return res.send(html);
 });
 
-// TASK
+// EDIT
+app.get('/edit', async (req, res) => {
+    if (!activeUserSession(req)) return res.redirect('/login');
+
+    let html = await wrapContent(await editTask.html(req), req);
+    return res.send(html);
+});
+
+// SAVE
 app.post('/savetask', async (req, res) => {
     if (!activeUserSession(req)) return res.redirect('/login');
 
     let html = await wrapContent(await saveTask.html(req), req);
-    res.send(html);
+    return res.send(html);
+});
+
+// DELETE
+app.get('/delete', async (req, res) => {
+    if (!activeUserSession(req)) return res.redirect('/login');
+
+    let html = await wrapContent(await deleteTask.html(req), req);
+    return res.send(html);
 });
 
 // SEARCH
@@ -91,13 +115,15 @@ app.post('/search', async (req, res) => {
     if (!activeUserSession(req)) return res.redirect('/login');
 
     let html = await search.html(req);
-    res.send(html);
+    return res.send(html);
 });
 
+// START
 app.listen(PORT, () => {
     console.log(`Server läuft auf http://localhost:${PORT}`);
 });
 
+// WRAPPER
 async function wrapContent(content, req) {
     let headerHtml = await header(req);
     return headerHtml + content + footer;
